@@ -69,6 +69,13 @@ WHERE location = 'CA';
 all companies that have more than 5000 reviews across all locations. 
 How many companies are there with more that 5000 reviews across all locations? */
 
+
+	SELECT company, AVG(star_rating) AS avg_rating, review_count
+	FROM data_analyst_jobs
+	GROUP BY company, review_count
+	HAVING SUM(review_count) > 5000
+	;
+
 /* Q10 Add the code to order the query in #9 from highest to lowest average star rating. 
 Which company with more than 5000 reviews across all locations in the dataset 
 has the highest star rating? What is that rating? */
