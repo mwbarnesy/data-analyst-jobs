@@ -52,6 +52,11 @@ ORDER BY avg_rating DESC;
 
 /* Q7 Select unique job titles from the data_analyst_jobs table. How many are there? */
 
+SELECT COUNT(DISTINCT(title))
+FROM data_analyst_jobs;
+
+--881 unique job titles
+
 /* Q8 How many unique job titles are there for California companies? */
 
 /* Q9 Find the name of each company and its average star rating for 
