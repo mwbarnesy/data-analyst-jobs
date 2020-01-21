@@ -23,7 +23,13 @@ WHERE location = 'TN';
 
 --21 postings
 
-/* Q4 How many postings in Tennessee have a star rating above 4?*/
+/* Q4 How many postings in Tennessee have a star rating above 4? */
+
+SELECT COUNT(*)
+FROM data_analyst_jobs
+WHERE star_rating > 4;
+
+--416 postings
 
 /* Q5 How many postings in the dataset have a review count between 500 and 1000? */
 
