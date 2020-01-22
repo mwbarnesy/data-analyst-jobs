@@ -19,17 +19,17 @@ either Tennessee or Kentucky? */
 
 SELECT COUNT(*)
 FROM data_analyst_jobs
-WHERE location = 'TN';
+WHERE location = 'TN' OR location = 'KY';
 
---21 postings
+--21 postings in TN, 6 postings in KY, 27 in both
 
 /* Q4 How many postings in Tennessee have a star rating above 4? */
 
 SELECT COUNT(*)
 FROM data_analyst_jobs
-WHERE star_rating > 4;
+WHERE star_rating > 4 AND location = 'TN';
 
---416 postings
+--3 postings
 
 /* Q5 How many postings in the dataset have a review count between 500 and 1000? */
 
@@ -45,6 +45,7 @@ Which state shows the highest average rating? */
 
 SELECT location AS state, AVG(star_rating) AS avg_rating
 FROM data_analyst_jobs
+WHERE star_rating IS NOT NULL
 GROUP BY state
 ORDER BY avg_rating DESC;
 
@@ -67,32 +68,59 @@ WHERE location = 'CA';
 
 /* Q9 Find the name of each company and its average star rating for 
 all companies that have more than 5000 reviews across all locations. 
-How many companies are there with more that 5000 reviews across all locations? */
+How many companies are there with more than 5000 reviews across all locations? */
 
-SELECT DISTINCT company, AVG(star_rating) AS avg_rating, review_count	
+SELECT company, AVG(star_rating) AS avg_rating
 FROM data_analyst_jobs
-GROUP BY company, review_count
+WHERE location IS NOT NULL
+GROUP BY company
 HAVING SUM(review_count) > 5000
 ;
+
+--71 companies
+
+/*  
+	name of each company (distinct)
+	& its average star rating
+	for all companies with 5000 reviews across all locations
+	get a count of companies with 5000 reviews across all locations
+	
+SELECT COUNT(DISTINCT(company)), AVG(star_rating)
+FROM data_analyst_jobs
+GROUP BY company
+HAVING SUM(review_count) > 5000
+ORDER BY avg_rate DESC;
+	
+*/
 
 /* Q10 Add the code to order the query in #9 from highest to lowest average star rating. 
 Which company with more than 5000 reviews across all locations in the dataset 
 has the highest star rating? What is that rating? */
+
+SELECT company, AVG(star_rating) AS avg_rating
+FROM data_analyst_jobs
+WHERE location IS NOT NULL
+GROUP BY company
+HAVING SUM(review_count) > 5000
+ORDER BY avg_rating DESC;
+;
+
+--Google with 4.3000001910000000
 
 /* Q11 Find all the job titles that contain the word ‘Analyst’. 
 How many different job titles are there? */
 
 SELECT COUNT(DISTINCT(title))
 FROM data_analyst_jobs
-WHERE title LIKE '%Analyst%';
+WHERE title ILIKE '%analyst%';
 
---754 different job titles
+--774 different job titles
 
 /* Q12 How many different job titles do not contain either the word ‘Analyst’ 
 or the word ‘Analytics’? What word do these positions have in common? */
 
 SELECT COUNT(DISTINCT(title))
 FROM data_analyst_jobs
-WHERE title NOT LIKE '%Analy%';
+WHERE title NOT ILIKE '%Analy%';
 
---26 job titles
+--4 job titles
